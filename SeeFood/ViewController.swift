@@ -21,13 +21,13 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
 
         imagePicker.delegate = self
         imagePicker.sourceType = .camera
-        imagePicker.allowsEditing = false
+        imagePicker.allowsEditing = true
         
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
-        if let userPickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+        if let userPickedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
         
             imageView.image = userPickedImage
             
@@ -53,13 +53,12 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
                 fatalError("Model failed to process image.")
             }
         
+//            print(results)
+
             if let firstResult = results.first {
-                if firstResult.identifier.contains("hotdog") {
-                    self.navigationItem.title = "Hotdog!"
-                } else {
-                    self.navigationItem.title = "Not Hotdog!"
-                }
+                self.navigationItem.title = firstResult.identifier.capitalized
             }
+            
         }
         
         let handler = VNImageRequestHandler(ciImage: image)
